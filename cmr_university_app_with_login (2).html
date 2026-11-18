@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CMR University App — Interactive Demo</title>
+<style>
+:root{--navy:#092653;--blue:#0866e9;--sky:#eaf3ff;--ink:#14233f;--muted:#667895;--line:#e4ebf6;--white:#fff;--green:#0b9b63;--shadow:0 12px 32px #17477d12}
+*{box-sizing:border-box}body{margin:0;background:#eef4fc;color:var(--ink);font:15px/1.45 Inter,system-ui,Segoe UI,Arial,sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}.app{min-height:100vh;display:grid;grid-template-columns:235px 1fr;max-width:1600px;margin:auto;background:#f7faff}
+.sidebar{background:linear-gradient(180deg,#092653,#061b3b);color:white;padding:26px 17px;display:flex;flex-direction:column;gap:22px;min-height:100vh}
+.brand{padding:8px 12px 20px;text-align:center}.bird{font-size:38px;color:#39a9ff}.brand strong{display:block;font-size:19px;letter-spacing:.5px}.brand small{color:#b9d7ff}
+.nav{display:grid;gap:8px}.nav button{border:0;background:transparent;color:#d9e7ff;text-align:left;padding:13px 14px;border-radius:12px;font-weight:600}.nav button.active,.nav button:hover{background:#0866e9;color:white}.side-note{margin-top:auto;border:1px solid #ffffff35;padding:14px;border-radius:14px;color:#c8dcfa;font-size:12px}
+main{padding:22px 28px 36px;min-width:0}.top{display:flex;align-items:center;gap:14px;margin-bottom:20px}.search{flex:1;background:white;border:1px solid var(--line);border-radius:13px;padding:12px 15px;color:#71809a}.topright{display:flex;align-items:center;gap:14px}.avatar{width:39px;height:39px;border-radius:50%;background:#d8eaff;display:grid;place-items:center;font-weight:800;color:#0754bd}
+h1{font-size:26px;margin:0 0 4px}h2{font-size:18px;margin:0 0 14px}h3{font-size:15px;margin:0 0 8px}.muted{color:var(--muted)}.small{font-size:12px}.pagehead{display:flex;justify-content:space-between;align-items:center;margin:10px 0 18px;gap:12px}
+.hero{border-radius:20px;padding:25px 28px;background:linear-gradient(105deg,#d8eaff,#f5f9ff 62%,#d7eaff);border:1px solid #d5e6ff;margin-bottom:17px;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;width:220px;height:220px;border-radius:50%;background:#8fc3ff44;right:7%;top:-100px}.hero p{margin:4px 0 13px;color:#49617f}.pill{display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:30px;background:#e5f0ff;color:#0759c6;font-size:12px;font-weight:700}.grid{display:grid;gap:15px}.stats{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:16px}.stat,.card{background:white;border:1px solid var(--line);border-radius:17px;padding:17px;box-shadow:var(--shadow)}.stat{display:flex;align-items:center;gap:13px}.ico{width:43px;height:43px;border-radius:13px;background:#e9f2ff;display:grid;place-items:center;font-size:21px}.stat b{font-size:23px;display:block}.stat span{font-size:12px;color:var(--muted)}
+.columns{grid-template-columns:1.15fr 1fr .82fr;align-items:start}.stack{display:grid;gap:15px}.rowitem{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}.rowitem:last-child{border:0}.time{background:#eaf3ff;color:#0759c6;border-radius:9px;padding:7px 9px;font-size:12px;font-weight:800;white-space:nowrap}.btn{border:0;border-radius:10px;background:var(--blue);color:white;padding:10px 14px;font-weight:700}.btn.secondary{background:#eaf2ff;color:#0759c6}.btn.ghost{background:white;color:#0759c6;border:1px solid #cfe0f8}.btn.green{background:#e4f8ee;color:#087d4e}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.quick{grid-template-columns:repeat(3,1fr)}.quick button{background:#f4f8ff;border:1px solid #dce8fa;border-radius:12px;padding:13px 5px;color:#16416f;font-weight:650}.quick span{display:block;font-size:21px;margin-bottom:4px}.notice{padding:10px 0;border-bottom:1px solid var(--line)}.notice:last-child{border:0}.tag{font-size:11px;padding:4px 8px;border-radius:20px;background:#fff0e8;color:#c54b1a;margin-right:6px}.tag.blue{background:#e7f1ff;color:#0759c6}.tag.green{background:#e3f8ed;color:#087d4e}
+.progress{height:8px;background:#edf2fa;border-radius:20px;overflow:hidden;margin-top:9px}.progress i{display:block;width:72%;height:100%;background:#0870ed;border-radius:20px}.busmap{height:155px;border-radius:13px;background:linear-gradient(135deg,#e4f2ff,#d4e9ff);position:relative;overflow:hidden;display:grid;place-items:center;font-size:45px}.busmap:before,.busmap:after{content:"";position:absolute;width:150%;height:13px;background:#fff;transform:rotate(-18deg);opacity:.8}.busmap:after{transform:rotate(28deg)}.busmap span{z-index:1;background:#fff;padding:7px 12px;border-radius:20px;font-size:12px;color:#0759c6;font-weight:800}
+.panel{display:none}.panel.active{display:block}.formrow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:12px 0}.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px}.field input,.field select,.field textarea{width:100%;padding:11px;border:1px solid #dce5f2;border-radius:10px;background:white;color:var(--ink)}.field textarea{min-height:90px;resize:vertical}.table{width:100%;border-collapse:collapse}.table th,.table td{text-align:left;padding:12px 9px;border-bottom:1px solid var(--line);font-size:13px}.table th{color:var(--muted);font-weight:700}.empty{padding:30px;text-align:center;color:var(--muted)}.footer{text-align:center;color:#8290a5;font-size:11px;margin-top:22px}
+@media(max-width:1050px){.columns{grid-template-columns:1fr 1fr}.columns .stack:last-child{grid-column:1/-1}.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.app{display:block}.sidebar{min-height:auto;padding:10px 12px;gap:8px}.brand{padding:4px}.bird{font-size:23px}.brand strong{font-size:14px}.brand small,.side-note{display:none}.nav{display:flex;overflow:auto}.nav button{white-space:nowrap;padding:9px 12px;font-size:12px}.nav button:before{content:"";}.sidebar{display:block}main{padding:15px}.top{margin-bottom:14px}.topright .who{display:none}.columns{grid-template-columns:1fr}.columns .stack:last-child{grid-column:auto}.stats{gap:9px}.stat{padding:12px}.stat b{font-size:19px}.hero{padding:20px}.formrow{grid-template-columns:1fr}.pagehead{align-items:flex-start;flex-direction:column}}
+
+.login-screen{min-height:100vh;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 15% 15%,#d8eaff 0,transparent 34%),linear-gradient(135deg,#eef4fc,#dceaff)}
+.login-card{width:min(440px,100%);background:#fff;border:1px solid #dce7f5;border-radius:22px;padding:34px;box-shadow:0 22px 60px #17477d20}
+.login-brand{text-align:center;margin-bottom:25px}.login-brand .bird{font-size:42px;color:#0866e9}.login-brand h1{font-size:23px;margin:5px 0}.login-brand p{color:#667895;margin:0;font-size:13px}
+.login-card h2{font-size:21px;margin:0 0 5px}.login-sub{color:#667895;font-size:13px;margin:0 0 22px}
+.login-field{margin:14px 0}.login-field label{display:block;font-size:13px;font-weight:700;margin-bottom:7px;color:#314563}.login-field input{width:100%;padding:13px 14px;border:1px solid #dce5f2;border-radius:11px;outline:none}.login-field input:focus{border-color:#0866e9;box-shadow:0 0 0 3px #0866e91a}
+.login-submit{width:100%;padding:13px;border:0;border-radius:11px;background:#0866e9;color:#fff;font-weight:800;margin-top:8px}.login-error{color:#b54708;font-size:13px;min-height:18px;margin-top:10px}.login-hint{background:#f2f7ff;border-radius:11px;padding:11px 12px;color:#526783;font-size:12px;margin-top:17px}.login-foot{text-align:center;color:#8290a5;font-size:11px;margin-top:20px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+
+<div class="login-screen" id="loginScreen">
+ <div class="login-card">
+  <div class="login-brand"><div class="bird">◉</div><h1>CMR UNIVERSITY</h1><p>OMBR Campus · Student Portal</p></div>
+  <h2>Welcome back</h2>
+  <p class="login-sub">Sign in to access your campus in one place.</p>
+  <form id="loginForm">
+   <div class="login-field"><label for="loginId">Student email / ID</label><input id="loginId" type="text" placeholder="Enter your student ID" autocomplete="username" required></div>
+   <div class="login-field"><label for="loginPassword">Password</label><input id="loginPassword" type="password" placeholder="Enter your password" autocomplete="current-password" required></div>
+   <button class="login-submit" type="submit">Sign in</button>
+   <div class="login-error" id="loginError" role="alert"></div>
+  </form>
+  <div class="login-hint"><b>Demo access:</b> use any non-empty student ID and password. This prototype does not verify real university accounts.</div>
+  <div class="login-foot">Unofficial concept prototype · Not connected to CMR University systems</div>
+ </div>
+</div>
+
+<div class="app" id="appShell" hidden>
+<aside class="sidebar">
+ <div class="brand"><div class="bird">◉</div><strong>CMR UNIVERSITY</strong><small>OMBR Campus · Demo</small></div>
+ <nav class="nav" id="nav">
+  <button class="active" data-page="home">⌂ &nbsp; Home</button>
+  <button data-page="academics">▣ &nbsp; Academics</button>
+  <button data-page="updates">♧ &nbsp; Updates</button>
+  <button data-page="bus">▰ &nbsp; Bus Connect</button>
+  <button data-page="services">✣ &nbsp; Services</button>
+  <button data-page="profile">♙ &nbsp; Profile</button>
+ </nav>
+ <button class="btn" id="logoutBtn" type="button" style="background:#d94848;color:white;text-align:left;width:100%">↪ &nbsp; Logout</button>
+ <div class="side-note">One Campus. One App.<br><b>Everything Connected.</b><br><br><span class="small">Concept prototype — sample data only</span></div>
+</aside>
+<main>
+ <div class="top"><div class="search">⌕ &nbsp; Search classes, notices, services…</div><div class="topright"><span>♧ <sup>3</sup></span><div class="avatar" id="topAvatar">ST</div><div class="who"><b id="topStudentName">Student</b><div class="small muted">Student · OMBR Campus</div></div></div></div>
+
+<section class="panel active" id="home">
+ <div class="hero"><span class="pill">📍 OMBR Campus</span><h1 style="margin-top:12px">Welcome back, <span id="welcomeStudent">Student</span>!</h1><p>Your campus life, all in one app.</p><span class="small muted">A unified place for academics, campus updates and student services.</span></div>
+ <div class="grid stats">
+  <div class="stat"><div class="ico">▦</div><div><b>4</b><span>Today's Classes</span></div></div>
+  <div class="stat"><div class="ico">▤</div><div><b>2</b><span>Pending Assignments</span></div></div>
+  <div class="stat"><div class="ico">◉</div><div><b>95%</b><span>Attendance · sample</span></div></div>
+  <div class="stat"><div class="ico">♧</div><div><b>3</b><span>New Notifications</span></div></div>
+ </div>
+ <div class="grid columns">
+  <div class="stack">
+   <div class="card"><h2>Upcoming Schedule</h2>
+    <div class="rowitem"><span class="time">09:00 AM</span><div style="flex:1"><b>Data Structures</b><div class="small muted">Block A · Room 204</div></div></div>
+    <div class="rowitem"><span class="time">11:00 AM</span><div style="flex:1"><b>Web Development</b><div class="small muted">Lab 2</div></div></div>
+    <div class="rowitem"><span class="time">02:00 PM</span><div style="flex:1"><b>Maths for Computing</b><div class="small muted">Block B</div></div></div>
+    <button class="btn secondary" onclick="go('academics')">Open timetable →</button>
+   </div>
+   <div class="card"><h2>College Announcements</h2>
+    <div class="notice"><span class="tag">Important</span><b>Internal Assessment Schedule</b><div class="small muted">Sample notice · Today</div></div>
+    <div class="notice"><span class="tag blue">Event</span><b>Cultural Fest — Abhinaya</b><div class="small muted">Sample notice · Tomorrow</div></div>
+    <div class="notice"><span class="tag green">General</span><b>Library timings update</b><div class="small muted">Sample notice</div></div>
+    <button class="btn secondary" onclick="go('updates')">All updates →</button>
+   </div>
+  </div>
+  <div class="stack">
+   <div class="card"><h2>CMR Bus Connect <span class="pill" style="float:right">Morning service</span></h2><div class="small muted">Kasturinagar Bus Stop → CMR University, OMBR Campus</div><div class="busmap" style="margin:12px 0">🚌<span>DEMO ROUTE MAP</span></div><div class="rowitem"><b>Student bus pass</b><span class="tag green">Free with valid pass</span></div><div class="small muted">Live GPS is simulated in this prototype.</div><button class="btn" style="margin-top:12px" onclick="go('bus')">Open Bus Connect →</button></div>
+   <div class="card"><h2>Quick Access</h2><div class="grid quick">
+    <button onclick="go('services')"><span>📚</span>Library</button><button onclick="go('services')"><span>₹</span>Fees</button><button onclick="go('bus')"><span>🚌</span>Transport</button>
+    <button onclick="go('services')"><span>▣</span>Certificates</button><button onclick="go('updates')"><span>▦</span>Events</button><button onclick="go('services')"><span>☏</span>Help Desk</button>
+   </div></div>
+  </div>
+  <div class="stack">
+   <div class="card"><h2>Your Tasks</h2><label><input type="checkbox" checked> Check assignment deadlines</label><p><label><input type="checkbox"> Prepare for internal exam</label></p><label><input type="checkbox"> Read latest updates</label><div class="progress"><i></i></div><div class="small muted">Sample task progress</div></div>
+   <div class="card"><h2>My Campus</h2><div class="ico" style="width:100%;height:85px;font-size:38px">🎓</div><b>Learn. Connect. Thrive.</b><p class="small muted">Student tools and campus information in one place.</p></div>
+  </div>
+ </div>
+</section>
+
+<section class="panel" id="academics">
+ <div class="pagehead"><div><h1>Academics</h1><div class="muted">Your learning essentials in one place</div></div><span class="pill">Student view · Demo</span></div>
+ <div class="grid stats"><div class="stat"><div class="ico">▦</div><div><b>4</b><span>Today's classes</span></div></div><div class="stat"><div class="ico">▤</div><div><b>2</b><span>Pending work</span></div></div><div class="stat"><div class="ico">◉</div><div><b>95%</b><span>Attendance sample</span></div></div><div class="stat"><div class="ico">◷</div><div><b>12</b><span>Days to exams · sample</span></div></div></div>
+ <div class="grid" style="grid-template-columns:1.2fr 1fr">
+  <div class="card"><h2>Class Timetable</h2><div class="rowitem"><span class="time">09:00</span><div style="flex:1"><b>Data Structures</b><div class="small muted">Block A · Room 204</div></div><span class="tag green">Today</span></div><div class="rowitem"><span class="time">11:00</span><div style="flex:1"><b>Web Development</b><div class="small muted">Computer Lab 2</div></div></div><div class="rowitem"><span class="time">14:00</span><div style="flex:1"><b>Maths for Computing</b><div class="small muted">Block B</div></div></div><div class="rowitem"><span class="time">15:00</span><div style="flex:1"><b>Communication Skills</b><div class="small muted">Room 105</div></div></div></div>
+  <div class="card"><h2>Assignments & Deadlines</h2><div class="notice"><b>Data Structures — Linked Lists</b><div class="small muted">Due: Sample date · Pending</div></div><div class="notice"><b>Web Development — Mini Project</b><div class="small muted">Due: Sample date · In progress</div></div><p class="small muted">Proposed Google Classroom connection can sync coursework and due dates with university approval.</p><button class="btn secondary" onclick="alert('Demo only: a real Classroom connection requires university approval and authorized API access.')">Connect Google Classroom</button></div>
+ </div>
+ <div class="card" style="margin-top:15px"><h2>Other academic tools</h2><div class="grid quick"><button>📅<br>Exam Schedule</button><button>📊<br>Results</button><button>📖<br>Study Resources</button></div></div>
+</section>
+
+<section class="panel" id="updates">
+ <div class="pagehead"><div><h1>Campus Updates</h1><div class="muted">Notices, events and important announcements</div></div><span class="pill">Sample content</span></div>
+ <div class="card"><div class="formrow"><div class="field"><label>Search updates</label><input id="noticeSearch" placeholder="Search notices…" oninput="filterNotices()"></div><div class="field"><label>Category</label><select id="noticeType" onchange="filterNotices()"><option value="all">All categories</option><option>Important</option><option>Events</option><option>General</option><option>Academic</option></select></div></div>
+ <div id="noticeList"><div class="notice" data-cat="Important"><span class="tag">Important</span><b>Internal Assessment Schedule</b><p class="small muted">Sample announcement. Check the official university notice for confirmed details.</p></div><div class="notice" data-cat="Events"><span class="tag blue">Events</span><b>Cultural Fest — Abhinaya</b><p class="small muted">Sample event listing.</p></div><div class="notice" data-cat="General"><span class="tag green">General</span><b>Library Timings Update</b><p class="small muted">Sample campus update.</p></div><div class="notice" data-cat="Academic"><span class="tag blue">Academic</span><b>Examination preparation resources</b><p class="small muted">Sample academic update.</p></div></div></div>
+</section>
+
+<section class="panel" id="bus">
+ <div class="pagehead"><div><h1>CMR Bus Connect</h1><div class="muted">Proposed morning student transport service</div></div><span class="pill">Morning only</span></div>
+ <div class="grid" style="grid-template-columns:1fr 1fr">
+  <div class="card"><h2>Route</h2><div class="busmap" style="height:205px">🚌<span>KASTURINAGAR → OMBR CAMPUS</span></div><p><b>Kasturinagar Bus Stop</b><br><span class="muted">to CMR University, OMBR Campus</span></p><div class="rowitem"><span>Operating window</span><b>Morning only</b></div><div class="rowitem"><span>Student fare</span><b class="tag green">Free with valid bus pass</b></div><p class="small muted">Actual timings, stops and service operation must be confirmed by the university transport department.</p></div>
+  <div class="card"><h2>Live bus tracking · Demo</h2><div class="rowitem"><span>GPS status</span><span class="tag green" id="gpsStatus">Demo simulation</span></div><div class="busmap" id="trackingMap">📍<span id="gpsText">Location not connected</span></div><p class="small muted">This button animates a sample status only. No real vehicle or GPS feed is connected.</p><button class="btn" onclick="simulateGPS()">▶ Simulate tracking</button><div class="rowitem"><span>Estimated arrival</span><b id="eta">—</b></div><div class="rowitem"><span>Route alerts</span><b>Demo notifications</b></div>
+   <h3 style="margin-top:15px">Student bus pass</h3><div style="background:#0a4eb3;color:white;border-radius:13px;padding:16px"><b>CMR UNIVERSITY</b><div class="small">STUDENT BUS PASS · DEMO</div><div style="font-size:22px;margin:12px 0">🚌</div><b>Kasturinagar → OMBR Campus</b><div class="small">Eligibility: valid university bus pass</div></div><p class="small muted">Pass verification is not connected.</p>
+  </div>
+ </div>
+ <div class="card" style="margin-top:15px"><h2>Demo morning trip request</h2><div class="formrow"><div class="field"><label>Travel date</label><input type="date" id="tripDate"></div><div class="field"><label>Direction</label><select><option>Kasturinagar → OMBR Campus</option><option>OMBR Campus → Kasturinagar</option></select></div><div class="field"><label>Bus pass</label><select id="pass"><option value="yes">I have a valid student bus pass</option><option value="no">I do not have a bus pass</option></select></div><div class="field"><label>Fare</label><input value="Free with valid student bus pass" disabled></div></div><button class="btn" onclick="bookTrip()">Submit demo request</button><p id="bookingMsg" class="small muted">This is a front-end demonstration, not a real reservation.</p></div>
+</section>
+
+<section class="panel" id="services">
+ <div class="pagehead"><div><h1>Student Services</h1><div class="muted">Common campus services and support</div></div></div>
+ <div class="grid quick">
+  <button onclick="service('Library')"><span>📚</span>Library</button><button onclick="service('Fees & Receipts')"><span>₹</span>Fees & Receipts</button><button onclick="service('Transport')"><span>🚌</span>Transport</button><button onclick="service('Certificates')"><span>▣</span>Certificates</button><button onclick="service('Hostel')"><span>🏠</span>Hostel</button><button onclick="service('Help Desk')"><span>☏</span>Help Desk</button><button onclick="service('Clubs & Events')"><span>🎭</span>Clubs & Events</button><button onclick="service('Grievances')"><span>✉</span>Grievances</button><button onclick="service('Student Support')"><span>🤝</span>Student Support</button>
+ </div>
+ <div class="card" style="margin-top:15px"><h2 id="serviceTitle">Choose a service</h2><p id="serviceDesc" class="muted">Select any tile above to preview its service information. Actual university records and payment services are not connected.</p></div>
+</section>
+
+<section class="panel" id="profile">
+ <div class="pagehead"><div><h1>Profile & Settings</h1><div class="muted">Manage your demo profile and preferences</div></div></div>
+ <div class="grid" style="grid-template-columns:1fr 1fr">
+  <div class="card"><div class="avatar" id="profileAvatar" style="width:65px;height:65px;font-size:23px">ST</div><h2 id="profileStudentName" style="margin-top:12px">Student</h2><p class="muted">Student · BCA · OMBR Campus</p><div class="rowitem"><span>University ID</span><b>Demo account</b></div><div class="rowitem"><span>Role</span><b>Student</b></div><div class="rowitem"><span>Campus</span><b>OMBR</b></div></div>
+  <div class="card"><h2>Preferences</h2><p><label><input type="checkbox" checked> Academic reminders</label></p><p><label><input type="checkbox" checked> Campus announcements</label></p><p><label><input type="checkbox" checked> Bus service alerts</label></p><p><label><input type="checkbox"> Email summary</label></p><p class="small muted">Privacy, security, sign-in and notification settings would be connected to the university identity system in a production app.</p></div>
+ </div>
+</section>
+<div class="footer">CMR University App · Unofficial concept prototype · Sample data only · Not connected to CMR University systems</div>
+</main>
+</div>
+<script>
+function go(page){
+ document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===page));
+ document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>go(b.dataset.page)));
+function filterNotices(){
+ const q=document.getElementById('noticeSearch').value.toLowerCase(),cat=document.getElementById('noticeType').value;
+ document.querySelectorAll('#noticeList .notice').forEach(n=>n.style.display=((cat==='all'||n.dataset.cat===cat)&&n.innerText.toLowerCase().includes(q))?'block':'none');
+}
+function simulateGPS(){
+ document.getElementById('gpsStatus').textContent='Simulated · Not live';
+ document.getElementById('gpsText').textContent='Demo bus position';
+ document.getElementById('eta').textContent='5 min · sample only';
+ document.getElementById('trackingMap').style.background='linear-gradient(135deg,#d8f5e7,#d9ecff)';
+}
+function bookTrip(){
+ const hasPass=document.getElementById('pass').value==='yes';
+ const msg=document.getElementById('bookingMsg');
+ msg.textContent=hasPass?'Demo request submitted locally. No real booking was made.':'A valid student bus pass is required for the proposed free service. No booking was made.';
+ msg.style.color=hasPass?'#087d4e':'#b54708';
+}
+function service(name){
+ document.getElementById('serviceTitle').textContent=name;
+ document.getElementById('serviceDesc').textContent=name+' preview selected. In the proposed app, this section would connect to the university-approved '+name.toLowerCase()+' service. No live account data or transactions are available in this demo.';
+}
+document.getElementById('tripDate').value=new Date().toISOString().slice(0,10);
+
+const loginScreen=document.getElementById('loginScreen');
+const appShell=document.getElementById('appShell');
+document.getElementById('loginForm').addEventListener('submit',function(event){
+ event.preventDefault();
+ const studentId=document.getElementById('loginId').value.trim();
+ const password=document.getElementById('loginPassword').value;
+ const error=document.getElementById('loginError');
+ if(!studentId||!password){error.textContent='Please enter your student ID and password.';return;}
+ const displayName=studentId.includes('@')?studentId.split('@')[0]:studentId;
+ const name=displayName.replace(/[._-]+/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+ const initials=name.split(/\s+/).filter(Boolean).slice(0,2).map(part=>part[0]).join('').toUpperCase()||'ST';
+ document.getElementById('topStudentName').textContent=name;
+ document.getElementById('welcomeStudent').textContent=name;
+ document.getElementById('profileStudentName').textContent=name;
+ document.getElementById('topAvatar').textContent=initials;
+ document.getElementById('profileAvatar').textContent=initials;
+ loginScreen.hidden=true;
+ appShell.hidden=false;
+});
+
+document.getElementById('logoutBtn').addEventListener('click',function(){
+ appShell.hidden=true;
+ loginScreen.hidden=false;
+ document.getElementById('loginForm').reset();
+ document.getElementById('loginError').textContent='';
+ document.getElementById('loginId').focus();
+ go('home');
+});
+
+
+</script>
+</body>
+</html>
